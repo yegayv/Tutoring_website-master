@@ -8,9 +8,10 @@ namespace Tutoring_Website.Model
 {
     public class Product
     {
-        public int product_id { get; set; }
-        public string vendor_id { get; set; }
-        public string product_name { get; set; }
-        public ProductInfo product_info { get; set; }
+        public int ProductId { get; set; }
+        public string VendorId { get; set; }
+        public string ProductName { get; set; }
+        public ProductInfo ProductInfo { get; set; }
     }
+
 }

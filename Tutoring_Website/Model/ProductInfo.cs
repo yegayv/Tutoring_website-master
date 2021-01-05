@@ -8,12 +8,12 @@ namespace Tutoring_Website.Model
     public class ProductInfo
     {
       
-        public int product_id { get; set; }
-        public string product_description { get; set; }
-        public int product_price { get; set; }
-        public string product_img { get; set; }
-        public int product_rating { get; set; }
-        public DateTime product_date { get; set; }
-        public int product_rating_count { get; set; }
+        public int ProductId { get; set; }
+        public string ProductDescription { get; set; }
+        public int ProductPrice { get; set; }
+        public string ProductImg { get; set; }
+        public double ProductRating { get; set; }
+        public DateTime DateAdded { get; set; }
+        public int? RatingCount { get; set; }
     }
 }

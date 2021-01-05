@@ -18,19 +18,19 @@ namespace Tutoring_Website.Pages.Tutors
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+
         private readonly ApplicationDbContext _db;
         private readonly IHttpClientFactory _clientFactory;
 
-        public IndexModel(ApplicationDbContext db, IHttpClientFactory clientFactory, ILogger<IndexModel> logger)
+        public IndexModel(ApplicationDbContext db, IHttpClientFactory clientFactory)
         {
             _db = db;
             _clientFactory = clientFactory;
-            _logger = logger;
         }
 
         public IEnumerable<Tutor> Tutors { get; set; }
-        //public IEnumerable<Tutor> TutorList { get; set; }
+
+        public IEnumerable<Tutor> TutorList { get; set; }
 
 
         public Product json { get; set; }
@@ -42,57 +42,46 @@ namespace Tutoring_Website.Pages.Tutors
             "https://projectrainforest.azurewebsites.net/api/VendorProduct/GetVendorProducts/25");
 
             var client = _clientFactory.CreateClient();
-            
+
 
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
+                var readContent = await response.Content.ReadAsStringAsync();
+                List<Product> result = JsonConvert.DeserializeObject<List<Product>>(readContent);
+                //JObject cObject = (JObject)result[0];
+                //JToken pI = cObject["productInfo"];
 
-                _logger.LogInformation("Test response:");
-                var readContent = response.Content.ReadAsStringAsync().Result;
-                JArray result = JsonConvert.DeserializeObject<JArray>(readContent);
-                JObject cObject = (JObject)result[0];
-                JToken pI = cObject["productInfo"];
-                Console.WriteLine(pI);
-                int j = 0;
-                do
+                Console.WriteLine("LOOK HERE MOTHERFUCKERS");
+                Console.WriteLine(result[0].ProductId);
+                Console.WriteLine(result[0].ProductInfo.DateAdded);
+                Console.WriteLine(result[0].ProductInfo.ProductDescription);
+                Console.WriteLine(result[0].ProductInfo.ProductId);
+                Console.WriteLine(result[0].ProductInfo.ProductRating);
+
+                foreach (var product in result)
                 {
-                    JObject currentObject = (JObject)result[j];
-                    
-                    var pInfo = currentObject["productInfo"];
-                    var info = JsonConvert.DeserializeObject<ProductInfo>(pInfo.ToString());
                     Tutor tutor = new Tutor();
-                    Console.WriteLine(info.product_description);
-                    //tutor.tutor_id = Int32.Parse(pInfo["productId"]);
-                    j++;
-                    
-                } while (j < result.Count());
+                    tutor.tutor_id = product.ProductId;
+                    tutor.tutor_name = product.ProductName;
+                    tutor.tutor_description = product.ProductInfo.ProductDescription;
+                    tutor.tutor_subjects = product.ProductInfo.ProductDescription;
+                    tutor.tutor_rate = product.ProductInfo.ProductPrice;
+                    tutor.tutor_img = product.ProductInfo.ProductImg;
+                    tutor.tutor_rating = (int)product.ProductInfo.ProductRating;
+                    tutor.tutor_date_joined = product.ProductInfo.DateAdded;
+                    TutorList.Append(tutor);
+                    Console.WriteLine(TutorList);
+                }
 
                 
-                //var ProductList = (JObject)JsonConvert.DeserializeObject(readContent);
-
-                /*    foreach(var product in ProductList)
-                     {
-                         Tutor tutor = new Tutor();
-                         tutor.tutor_id = product.product_id;
-                         tutor.tutor_name = product.product_name;
-                         tutor.tutor_description = product.product_info.product_description;
-                         tutor.tutor_subjects = product.product_info.product_description;
-                         tutor.tutor_rate = product.product_info.product_price;
-                         tutor.tutor_img = product.product_info.product_img;
-                         tutor.tutor_rating = product.product_info.product_rating;
-                         tutor.tutor_date_joined = product.product_info.product_date;
-                         TutorList.Append(tutor);
-                     }
-
-     */
             }
 
-            
+
 
             Tutors = await _db.Tutors.ToListAsync();
-            
+
         }
 
         public async Task<IActionResult> OnPostDelete(int id)
