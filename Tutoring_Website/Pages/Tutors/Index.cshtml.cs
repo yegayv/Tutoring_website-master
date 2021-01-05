@@ -26,11 +26,13 @@ namespace Tutoring_Website.Pages.Tutors
         {
             _db = db;
             _clientFactory = clientFactory;
+            TutorList = new List<Tutor>();
+
         }
 
         public IEnumerable<Tutor> Tutors { get; set; }
 
-        public IEnumerable<Tutor> TutorList { get; set; }
+        public List<Tutor> TutorList { get; set; }
 
 
         public Product json { get; set; }
@@ -71,7 +73,7 @@ namespace Tutoring_Website.Pages.Tutors
                     tutor.tutor_img = product.ProductInfo.ProductImg;
                     tutor.tutor_rating = (int)product.ProductInfo.ProductRating;
                     tutor.tutor_date_joined = product.ProductInfo.DateAdded;
-                    TutorList.Append(tutor);
+                    TutorList.Add(tutor);
                     Console.WriteLine(TutorList);
                 }
 
