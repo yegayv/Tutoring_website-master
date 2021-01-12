@@ -12,7 +12,7 @@ namespace Tutoring_Website.Model
         public string ProductDescription { get; set; }
         public int ProductPrice { get; set; }
         public string ProductImg { get; set; }
-        public double ProductRating { get; set; }
+        public double? ProductRating { get; set; }
         public DateTime DateAdded { get; set; }
         public int? RatingCount { get; set; }
     }

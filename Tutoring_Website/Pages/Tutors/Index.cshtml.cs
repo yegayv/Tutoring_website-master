@@ -71,7 +71,7 @@ namespace Tutoring_Website.Pages.Tutors
                     tutor.tutor_subjects = product.ProductInfo.ProductDescription;
                     tutor.tutor_rate = product.ProductInfo.ProductPrice;
                     tutor.tutor_img = product.ProductInfo.ProductImg;
-                    tutor.tutor_rating = (int)product.ProductInfo.ProductRating;
+                    tutor.tutor_rating = (int)(product.ProductInfo.ProductRating ?? 0);
                     tutor.tutor_date_joined = product.ProductInfo.DateAdded;
                     TutorList.Add(tutor);
                     Console.WriteLine(TutorList);
