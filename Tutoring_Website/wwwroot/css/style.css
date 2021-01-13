@@ -1,0 +1,27 @@
+.myCard{
+    height: 260px;
+}
+
+.first{
+    background-color: cornflowerblue;
+}
+
+.second{
+    background-color: seagreen;
+}
+
+.third{
+    background-color: mediumpurple;
+}
+
+.fourth{
+    background-color: hotpink;
+}
+
+.cardText{
+    color: whitesmoke; 
+    width: 300px;
+}
+.plus{
+    text-shadow: 3px 6px #272634;
+}
